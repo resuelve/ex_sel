@@ -2,14 +2,14 @@ defmodule ExSel.MixProject do
   use Mix.Project
 
   @version "0.0.2"
-  @url "https://github.com/slapers/ex_sel"
+  @url "https://github.com/resuelve/ex_sel"
 
   def project do
     [
-      app: :ex_sel,
+      app: :ex_sel_resuelve,
       version: @version,
       elixir: "~> 1.5",
-      name: "ExSel",
+      name: "ExSel Fork resuelve",
       description: "A simple expression language for elixir",
       deps: deps(),
       package: package(),
@@ -37,7 +37,7 @@ defmodule ExSel.MixProject do
   defp package do
     %{
       licenses: ["Apache 2"],
-      maintainers: ["Stefan Lapers"],
+      maintainers: ["Resuelve"],
       links: %{"GitHub" => @url}
     }
   end
