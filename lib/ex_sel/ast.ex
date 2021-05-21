@@ -87,9 +87,18 @@ defmodule ExSel.Ast do
   def eval!({:>=, [a, b]}, ctx), do: eval!(a, ctx, :num) >= eval!(b, ctx, :num)
   def eval!({:<, [a, b]}, ctx), do: eval!(a, ctx, :num) < eval!(b, ctx, :num)
   def eval!({:<=, [a, b]}, ctx), do: eval!(a, ctx, :num) <= eval!(b, ctx, :num)
-  def eval!({:==, [a, b]}, ctx), do: eval!(a, ctx) == eval!(b, ctx)
-  def eval!({:!=, [a, b]}, ctx), do: eval!(a, ctx) != eval!(b, ctx)
-
+  def eval!({:==, [a, b]}, ctx) do
+    case eval!(a, ctx) do
+      x when is_list(x) -> Enum.member?(x, eval!(b, ctx))
+      _ -> eval!(a, ctx) == eval!(b, ctx)
+    end
+  end
+  def eval!({:!=, [a, b]}, ctx)do
+    case eval!(a, ctx) do
+      x when is_list(x) -> !Enum.member?(x, eval!(b, ctx))
+      x -> eval!(x, ctx) != eval!(b, ctx)
+    end
+  end
   @spec eval!(ast :: t, ctx :: eval_ctx, type :: :bool | :num) :: eval_result | none()
   defp eval!(ast, ctx, type), do: ast |> eval!(ctx) |> guard_type!(type)
 
